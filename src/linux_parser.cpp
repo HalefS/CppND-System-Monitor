@@ -181,16 +181,14 @@ string LinuxParser::User(int pid[[maybe_unused]]) { return string(); }
 // REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::UpTime(int pid[[maybe_unused]]) { return 0; }
 
-vector<Process> LinuxParser::AllProcesses(vector<int> pids) {
-  vector<Process> processes = {};
-  for(int pid : pids) {
-      string ram = Ram(pid);
-      string uid = Uid(pid);
-      string user = User(pid);
-      long process_up_time = UpTime(pid);
-      string command = Command(pid);
-      Process p {};
-      processes.push_back(p);
-  }
-  return processes;
+vector<Process> LinuxParser::AllProcesses() {
+  vector<Process> all_processes;
+  string command;
+  for(int pid : Pids()) {
+    string command = Command(pid);
+      Process p (command);
+      p.Pid(pid);
+      all_processes.push_back(p);
+    }
+  return all_processes;
 }

@@ -24,7 +24,7 @@ const std::string kKernelFilename{"/sys/kernel/osrelease"};
 float MemoryUtilization();
 long UpTime();
 std::vector<int> Pids();
-std::vector<Process> AllProcesses(std::vector<int> pids);
+std::vector<Process> AllProcesses();
 int TotalProcesses();
 int RunningProcesses();
 std::string OperatingSystem();

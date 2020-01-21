@@ -36,6 +36,6 @@ long int System::UpTime() {
   return up_time;
 }
 
-void System::Processes(vector<Process>& processes) {
+void System::Processes(vector<Process> processes) {
   processes_ = processes;
 }
