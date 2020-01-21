@@ -110,8 +110,20 @@ long LinuxParser::ActiveJiffies() { return 0; }
 // TODO: Read and return the number of idle jiffies for the system
 long LinuxParser::IdleJiffies() { return 0; }
 
-// TODO: Read and return CPU utilization
-vector<string> LinuxParser::CpuUtilization() { return {}; }
+
+vector<string> LinuxParser::CpuUtilization() {
+  string line, user, nice , guest, guest_nice, iowait, irq, system,
+          idle, softirq, steal;
+  std::ifstream stream (kProcDirectory+kStatFilename);
+  if(stream.is_open()) {
+    std::getline(stream, line);
+    std::istringstream cpu_info_stream(line);
+    cpu_info_stream >> user >> nice >> system >> idle >> iowait >> irq
+    >> softirq >> steal >> guest >> guest_nice;
+  }
+  vector<string> cpu_stats {user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice};
+  return cpu_stats;
+}
 
 // TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses() {
@@ -168,3 +180,17 @@ string LinuxParser::User(int pid[[maybe_unused]]) { return string(); }
 // TODO: Read and return the uptime of a process
 // REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::UpTime(int pid[[maybe_unused]]) { return 0; }
+
+vector<Process> LinuxParser::AllProcesses(vector<int> pids) {
+  vector<Process> processes = {};
+  for(int pid : pids) {
+      string ram = Ram(pid);
+      string uid = Uid(pid);
+      string user = User(pid);
+      long process_up_time = UpTime(pid);
+      string command = Command(pid);
+      Process p {};
+      processes.push_back(p);
+  }
+  return processes;
+}

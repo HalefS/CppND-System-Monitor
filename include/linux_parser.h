@@ -4,6 +4,7 @@
 #include <fstream>
 #include <regex>
 #include <string>
+#include "process.h"
 
 namespace LinuxParser {
 // Paths
@@ -23,6 +24,7 @@ const std::string kKernelFilename{"/sys/kernel/osrelease"};
 float MemoryUtilization();
 long UpTime();
 std::vector<int> Pids();
+std::vector<Process> AllProcesses(std::vector<int> pids);
 int TotalProcesses();
 int RunningProcesses();
 std::string OperatingSystem();
@@ -41,6 +43,7 @@ enum CPUStates {
   kGuest_,
   kGuestNice_
 };
+
 std::vector<std::string> CpuUtilization();
 long Jiffies();
 long ActiveJiffies();

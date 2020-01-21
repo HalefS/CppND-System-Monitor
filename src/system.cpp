@@ -14,6 +14,7 @@ using std::size_t;
 using std::string;
 using std::vector;
 
+
 // TODO: Return the system's CPU
 Processor& System::Cpu() { return cpu_; }
 
@@ -30,4 +31,11 @@ int System::RunningProcesses() { return LinuxParser::RunningProcesses(); }
 
 int System::TotalProcesses() { return LinuxParser::TotalProcesses(); }
 
-long int System::UpTime() { return LinuxParser::UpTime(); }
+long int System::UpTime() {
+  up_time += 1;
+  return up_time;
+}
+
+void System::Processes(vector<Process>& processes) {
+  processes_ = processes;
+}
