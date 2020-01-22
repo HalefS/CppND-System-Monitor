@@ -26,3 +26,16 @@ string Format::ElapsedTime(long seconds) {
   seconds = seconds % 60;
   return AddPrecidingZero(hours) + ":" + AddPrecidingZero(minutes) + ":" + AddPrecidingZero(seconds);
  }
+
+
+ string Format::RamInKB(string ram) {
+   int kb;
+   try {
+     kb = stoi(ram);
+   }
+   catch(...) {
+     return "NA";
+   }
+   int mb = kb / 1024;
+   return to_string(mb);
+ }

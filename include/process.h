@@ -10,7 +10,6 @@ It contains relevant attributes as shown below
 class Process {
  public:
   Process ();
-  Process(string cmdline);
   Process(int Pid, string User, string Command, float Cpu_Utilization, string Ram, long int Up_Time);
   int Pid();
   void Pid(int Pid);                               // TODO: See src/process.cpp

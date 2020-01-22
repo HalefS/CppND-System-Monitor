@@ -9,6 +9,9 @@ namespace Format {
 
   std::string ElapsedTime(long times);
 
+
+  std::string RamInKB(std::string ram);
+
 };
 
 #endif

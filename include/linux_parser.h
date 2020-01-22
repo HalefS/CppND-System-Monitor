@@ -6,6 +6,7 @@
 #include <string>
 #include "process.h"
 
+
 namespace LinuxParser {
 // Paths
 const std::string kProcDirectory{"/proc/"};

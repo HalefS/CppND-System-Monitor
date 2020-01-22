@@ -5,5 +5,5 @@
 int main() {
   System system;
   system.Processes(LinuxParser::AllProcesses());
-  NCursesDisplay::Display(system);
+  NCursesDisplay::Display(system, system.Processes().size());
 }
