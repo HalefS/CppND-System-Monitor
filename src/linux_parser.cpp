@@ -58,7 +58,7 @@ vector<int> LinuxParser::Pids() {
     if (file->d_type == DT_DIR) {
       // Is every character of the name a digit?
       string filename(file->d_name);
-      if (std::all_of(filename.begin(), filename.end(), isdigit)) {
+      if (std::all_of(filename.begin(), filename.end(), isdigit) && std::stoi(file->d_name) > 1000) {
         int pid = stoi(filename);
         pids.push_back(pid);
       }
@@ -126,7 +126,6 @@ vector<string> LinuxParser::CpuUtilization() {
   return cpu_stats;
 }
 
-// TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses() {
   string line, processes, value;
   std::ifstream proc_stream (kProcDirectory+kStatFilename);
@@ -141,7 +140,6 @@ int LinuxParser::TotalProcesses() {
   return std::stoi(value);
 }
 
-// TODO: Read and return the number of running processes
 int LinuxParser::RunningProcesses() {
   string line, key, procs_running;
   std::ifstream proc_stream (kProcDirectory+kStatFilename);
@@ -176,8 +174,6 @@ string LinuxParser::Ram(int pid) {
       std::istringstream ram_stream (line);
       while(ram_stream >> key >> ram_usage) {
         if(key == "VmSize" && std::all_of(ram_usage.begin(), ram_usage.end(), isdigit)) {
-          //std::cout << ram_usage << std::endl;
-          //std::this_thread::sleep_for(std::chrono::seconds(2));
           return ram_usage;
         }
       }
@@ -201,8 +197,6 @@ string LinuxParser::Uid(int pid) {
   return "NA";
 }
 
-// TODO: Read and return the user associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::User(int pid) {
   string line, user, permission, user_id;
   std::ifstream stream (kPasswordPath);
@@ -218,8 +212,6 @@ string LinuxParser::User(int pid) {
   return "NA";
 }
 
-// TODO: Read and return the uptime of a process
-// REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::UpTime(int pid) {
   string line, time_elapsed;
   std::ifstream stream (kProcDirectory+to_string(pid)+kStatFilename);
@@ -233,8 +225,7 @@ long LinuxParser::UpTime(int pid) {
         for(int i = 0; i < 4; i++) {
           time_stream >> time_elapsed;
         }
-        std::cout << time_elapsed << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(2));
+        // Convert clock_ticks to seconds
         return std::stol(time_elapsed) / sysconf(_SC_CLK_TCK);
       }
     }
